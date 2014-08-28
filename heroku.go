@@ -25,6 +25,7 @@ type herokuRequest struct {
 
 func newHerokuClient(token string) herokuClient {
 	herokuUrl, _ := url.Parse("https://api.heroku.com")
+
 	return herokuClient{
 		httpClient: http.DefaultClient,
 		token:      token,
