@@ -24,7 +24,7 @@ type herokuRequest struct {
 }
 
 func newHerokuClient(token string) herokuClient {
-	herokuUrl, _ := url.Parse("https://api.heroku.com")
+	herokuUrl, _ := resolveHerokuClientUrl()
 
 	return herokuClient{
 		httpClient: http.DefaultClient,
@@ -33,6 +33,10 @@ func newHerokuClient(token string) herokuClient {
 		version:    "application/vnd.heroku+json; version=edge",
 		userAgent:  "hbuild/1",
 	}
+}
+
+func resolveHerokuClientUrl() (*url.URL, error) {
+	return url.Parse("https://api.heroku.com")
 }
 
 func (hc herokuClient) request(hrequest herokuRequest, v interface{}) (err error) {
