@@ -2,6 +2,7 @@ package hbuild
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"io"
@@ -28,6 +29,16 @@ func newHerokuClient(token string) herokuClient {
 	herokuUrl, _ := resolveHerokuClientUrl()
 
 	client := http.DefaultClient
+
+	if herokuUrl.Host != "api.heroku.com" {
+		client = &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{
+					InsecureSkipVerify: true,
+				},
+			},
+		}
+	}
 
 	return herokuClient{
 		httpClient: client,
