@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 )
 
 type herokuClient struct {
@@ -36,6 +37,10 @@ func newHerokuClient(token string) herokuClient {
 }
 
 func resolveHerokuClientUrl() (*url.URL, error) {
+	if s := os.Getenv("HEROKU_API_URL"); s != "" {
+		return url.Parse(s)
+	}
+
 	return url.Parse("https://api.heroku.com")
 }
 
