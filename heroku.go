@@ -27,8 +27,10 @@ type herokuRequest struct {
 func newHerokuClient(token string) herokuClient {
 	herokuUrl, _ := resolveHerokuClientUrl()
 
+	client := http.DefaultClient
+
 	return herokuClient{
-		httpClient: http.DefaultClient,
+		httpClient: client,
 		token:      token,
 		url:        herokuUrl,
 		version:    "application/vnd.heroku+json; version=edge",
