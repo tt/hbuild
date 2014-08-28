@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/naaman/hbuild"
 	"io"
+	"net/url"
 	"os"
 	"os/exec"
 	"os/user"
@@ -82,6 +83,12 @@ func netrcApiKey() string {
 }
 
 func apiHost() string {
+	if s := os.Getenv("HEROKU_API_URL"); s != "" {
+		if u, err := url.Parse(s); err == nil {
+			return u.Host
+		}
+	}
+
 	return "api.heroku.com"
 }
 
