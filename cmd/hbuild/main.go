@@ -72,13 +72,17 @@ func netrcApiKey() string {
 	if u, err := user.Current(); err == nil {
 		netrcPath := u.HomeDir + "/.netrc"
 		if _, err := os.Stat(netrcPath); err == nil {
-			key, _ := netrc.FindMachine(netrcPath, "api.heroku.com")
+			key, _ := netrc.FindMachine(netrcPath, apiHost())
 			if key.Password != "" {
 				return key.Password
 			}
 		}
 	}
 	return ""
+}
+
+func apiHost() string {
+	return "api.heroku.com"
 }
 
 func appName() string {
